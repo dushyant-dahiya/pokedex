@@ -38,9 +38,7 @@ class PokemonByType: UIViewController, UICollectionViewDelegate, UICollectionVie
         
         activityBar.startAnimating()
         containerView.hidden = false
-        
-        print("this is inside poketype viewdid moveid \(moveId)")
-        print("this is inside poketype viewdid currenttype \(currentType)")
+
         
         self.noDamageToCollection.delegate = self
         self.noDamageToCollection.dataSource = self
@@ -161,7 +159,6 @@ class PokemonByType: UIViewController, UICollectionViewDelegate, UICollectionVie
         if collectionView == self.noDamageToCollection {
             if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PokemonByTypeCell", forIndexPath: indexPath) as? PokemonByTypeCell {
                 let poke = pokemon!
-                print("inside no damage to collection \(poke.noDamageTo.count)")
                 cell.configureCell(poke.noDamageTo[indexPath.row],collectionName: "noDamageTo")
                 return cell
                 
@@ -171,7 +168,6 @@ class PokemonByType: UIViewController, UICollectionViewDelegate, UICollectionVie
         if collectionView == self.halfDamageToCollection {
             if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PokemonByTypeCell", forIndexPath: indexPath) as? PokemonByTypeCell {
                 let poke = pokemon!
-                print("inside half damage to collection \(poke.halfDamageTo.count)")
                 cell.configureCell(poke.halfDamageTo[indexPath.row], collectionName: "halfDamageTo")
                 return cell
             }
@@ -180,7 +176,6 @@ class PokemonByType: UIViewController, UICollectionViewDelegate, UICollectionVie
         if collectionView == self.doubleDamageToCollection {
             if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PokemonByTypeCell", forIndexPath: indexPath) as? PokemonByTypeCell {
                 let poke = pokemon!
-                print("inside double damage to collection \(poke.halfDamageTo.count)")
                 cell.configureCell(poke.doubleDamageTo[indexPath.row], collectionName: "doubleDamageTo")
                 return cell
             }
@@ -189,7 +184,6 @@ class PokemonByType: UIViewController, UICollectionViewDelegate, UICollectionVie
         if collectionView == self.noDamageFromCollection {
             if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PokemonByTypeCell", forIndexPath: indexPath) as? PokemonByTypeCell {
                 let poke = pokemon!
-                print("inside no damage from collection \(poke.noDamageFrom.count)")
                 cell.configureCell(poke.noDamageFrom[indexPath.row], collectionName: "noDamageFrom")
                 return cell
             }
@@ -198,7 +192,6 @@ class PokemonByType: UIViewController, UICollectionViewDelegate, UICollectionVie
         if collectionView == self.halfDamageFromCollection {
             if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PokemonByTypeCell", forIndexPath: indexPath) as? PokemonByTypeCell {
                 let poke = pokemon!
-                print("inside half damage from collection \(poke.halfDamageFrom.count)")
                 cell.configureCell(poke.halfDamageFrom[indexPath.row], collectionName: "halfDamageFrom")
                 return cell
             }
@@ -207,7 +200,6 @@ class PokemonByType: UIViewController, UICollectionViewDelegate, UICollectionVie
         if collectionView == self.doubleDamageFromCollection {
             if let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PokemonByTypeCell", forIndexPath: indexPath) as? PokemonByTypeCell {
                 let poke = pokemon!
-                print("inside double damage from collection \(poke.doubleDamageFrom.count)")
                 cell.configureCell(poke.doubleDamageFrom[indexPath.row], collectionName: "doubleDamageFrom")
                 return cell
             }

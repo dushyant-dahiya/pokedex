@@ -41,7 +41,6 @@ class Pokemon {
     var doubleDamageFrom = [String]()
     var pokeByType = [Dictionary<String, String>]()
     var pokeByTypeDict = [String:String]()
-    //var typeId = ""
     var id = ""
     var statsRequest: AnyObject?
     var movesRequest: AnyObject?
@@ -170,12 +169,11 @@ class Pokemon {
     }
     
     
-    
+    /* Method called to download pokemon stats */
     func downloadPokemonDetails(statsCompleted: StatsDownloadComplete){
         let url = NSURL(string: _pokemonURL)!
         Alamofire.request(.GET, url).responseJSON { (response) -> Void in
             let result = response.result
-            print(result.debugDescription)
             if let dict = result.value as? Dictionary<String,AnyObject> {
                 if let weight = dict["weight"] as? String {
                     self._weight = weight
@@ -209,15 +207,6 @@ class Pokemon {
                     self._spa = "\(specialAtk)"
                 }
                 
-                print(self._weight)
-                print(self._height)
-                print(self._defense)
-                print(self._attack)
-                print(self._hp)
-                print(self._spa)
-                print(self._spd)
-                print(self._speed)
-                
                 
                 if let types = dict["types"] as? [Dictionary<String,String>] where types.count > 0 {
                     if let name = types[0]["name"] {
@@ -225,21 +214,12 @@ class Pokemon {
                     }
                     
                     if types.count > 1 {
-//                        for var x = 1; x < types.count; x++ {
-//                            if let name = types[x]["name"]{
-//                                self._type! += "/\(name)".capitalizedString
-//                            }
-//                            
-//                        }
                         self._type2 = types[1]["name"]!.capitalizedString
                     }
                 }else {
                     self._type1 = ""
                     self._type2 = ""
                 }
-                
-                print(self._type1)
-           
                 
                 if let desc = dict["descriptions"] as? [Dictionary<String,String>] where desc.count > 0 {
                     if let uri = desc[0]["resource_uri"] {
@@ -249,7 +229,6 @@ class Pokemon {
                             if let descDict = result.value as? Dictionary<String,AnyObject> {
                                 if let uriDesc = descDict["description"] as? String {
                                     self._description = uriDesc
-                                    print(self._description)
                                     self.didFinishStatsDescDownload = true
                                 }
                                 
@@ -272,10 +251,8 @@ class Pokemon {
                                 let result = response.result
                                 if let abilityData = result.value as? Dictionary<String, AnyObject> {
                                     if let name = abilityData["name"] as? String {
-                                        print("name from ability\(name)")
                                         if let effectDesc = abilityData["effect_entries"] as? [Dictionary<String, AnyObject>] {
                                             let effect = effectDesc[0]["effect"] as? String
-                                            print("effect from ability\(effect)")
                                             self.abilityDict["name"] = name
                                             self.abilityDict["effect"] = effect
                                             self.abilities.append(self.abilityDict)
@@ -304,10 +281,8 @@ class Pokemon {
                 if let evo = dict["evolutions"] as? [Dictionary<String,AnyObject>] where evo.count > 0 {
                     if let to = evo[0]["to"] as? String {
                         if to.rangeOfString("mega") == nil {
-                            print("inside evoluton uri")
                             if let str = evo[0]["resource_uri"] as? String {
                                 let newStr = str.stringByReplacingOccurrencesOfString("/api/v1/pokemon/", withString: "")
-                                
                                 let num = newStr.stringByReplacingOccurrencesOfString("/", withString: "")
                                 self._nextEvolutionId = num
                                 self._nextEvolutionTxt = to
@@ -320,35 +295,27 @@ class Pokemon {
                         }
                     }
                     
-//                    print("evo lvl is\(self._nextEvolutionLvl)")
-//                    print("evo id is \(self._nextEvolutionId)")
-//                    print(self._nextEvolutionTxt)
-                    
                 }
             }
             
-            //if let weight =
         }
         
         
     }
     
   
-    
+    /* Method called to download all pokemon moves */
     func downloadPokemonMovesDetails(movesCompleted: MovesDownloadComplete){
         let url = NSURL(string: _pokemonURL)!
         Alamofire.request(.GET, url).responseJSON { (response) -> Void in
             let result = response.result
             if let dict = result.value as? Dictionary<String,AnyObject> {
                 if let moves = dict["moves"] as? [Dictionary<String, AnyObject>] where moves.count > 0 {
-                    print("inside pokemon moves array of size \(moves.count)")
-                                        for(var i = 0; i < moves.count; i++){
+                        for(var i = 0; i < moves.count; i++){
                         if let moveName = moves[i]["name"] as? String {
-                            print("inside doenload poke moves\(moveName)")
                             if let uri = moves[i]["resource_uri"] as? String{
                                 let newStr = uri.stringByReplacingOccurrencesOfString("/api/v1/move/", withString: "")
                                 let moveId = newStr.stringByReplacingOccurrencesOfString("/", withString: "")
-                                
                                 self.id = moveId
                                 let url = NSURL(string: "\(URL_POKEMON_MOVE_V2)\(moveId)/")!
                                 
@@ -363,48 +330,34 @@ class Pokemon {
                                         
                                         if let power = data["power"] as? Int {
                                             self.moveDict["power"] = "\(power)"
-                                            print(power)
                                         }
                                         
-                                        print("after moves alamo req")
                                         if let pp = data["pp"] as? Int {
                                             self.moveDict["pp"] = "\(pp)"
-                                            print(pp)
                                         }
                                         
                                         if let accuracy = data["accuracy"] as? Int {
                                             self.moveDict["accuracy"] = "\(accuracy)"
-                                            print(accuracy)
                                         }
                                         
                                         if let effectEntries = data["effect_entries"] as? [Dictionary<String, AnyObject>] {
                                             let effectDesc = effectEntries[0]["effect"] as? String
                                             self.moveDict["effect"] = effectDesc
-                                            print(effectDesc)
                                             
                                         }
                                         
                                         if let typeName = data["type"] as? Dictionary<String, AnyObject> {
                                             if let name = typeName["name"] as? String {
                                                 self.moveDict["type"] = name
-                                                print("types from inside moves\(name)")
                                             }
-                                            
-                                            
-                                            
                                             
                                         }
                                         
                                         self.moves.append(self.moveDict)
-                                        print("inside moves details method \(moves.count)")
-                                        print("moves array later \(self.moves.count)")
                                         if self.moves.count == moves.count{
-                                            print("the count is equal now")
                                             self.didFinishMovesDownload = true
                                         }
 
-                            
-                                        
                                     }
                                     
                                     movesCompleted()
@@ -425,39 +378,32 @@ class Pokemon {
         
     }
     
+    
+    /* Metod called to download pokemon details based on type */
     func downloadTypeDetails(typeCompleted: TypeDownloadComplete, id: String){
-        print("inside method downloadtype \(id)")
         let url = NSURL(string: "\(URL_POKEMON_MOVE_V2)\(id)/")!
-        print("inside method downloadtype\(url)")
         Alamofire.request(.GET, url).responseJSON { (response) -> Void in
             let result = response.result
-            
             if let data = result.value as? Dictionary<String, AnyObject> {
                 if let typeName = data["type"] as? Dictionary<String, AnyObject> {
                     if let typeDetail = typeName["url"] as? String {
-                        print("insdie type download \(typeDetail)")
                         let newStr = typeDetail.stringByReplacingOccurrencesOfString("http://pokeapi.co/api/v2/type/", withString: "")
                         let typeId = newStr.stringByReplacingOccurrencesOfString("/", withString: "")
                         let newUrl = NSURL(string: "\(URL_POKEMON_TYPE)\(typeId)/")!
-                        print("\the url for type is \(newUrl)")
                         Alamofire.request(.GET, newUrl).responseJSON(completionHandler: { (response) -> Void in
                             let result = response.result
-                            print("after making alamo type dnwld req")
                             if let typeData = result.value as? Dictionary<String, AnyObject> {
                                 if let damageDetail = typeData["damage_relations"] as? Dictionary<String, AnyObject> {
                                     if let noDamageToData = damageDetail["no_damage_to"] as? [Dictionary<String, AnyObject>] where noDamageToData.count > 0 {
                                         for(var i = 0; i < noDamageToData.count; i++){
-                                            print("inside no damage to \(noDamageToData[i]["name"])")
                                             self.noDamageTo.append((noDamageToData[i]["name"] as? String)!)
                                             
                                         }
                                         
                                     }
                                     
-                                    print("before half damage to")
                                     if let halfDamageToData = damageDetail["half_damage_to"] as? [Dictionary<String,AnyObject>] where halfDamageToData.count > 0 {
                                         for(var i = 0; i < halfDamageToData.count; i++){
-                                            print("inside half damage to \(halfDamageToData[i]["name"])")
                                             self.halfDamageTo.append((halfDamageToData[i]["name"] as? String)!)
                                            
                                         }
@@ -466,7 +412,6 @@ class Pokemon {
                                     
                                     if let doubleDamageToData = damageDetail["double_damage_to"] as? [Dictionary<String, AnyObject>] where doubleDamageToData.count > 0{
                                         for(var i = 0; i < doubleDamageToData.count; i++){
-                                            print("inside double damage to \(doubleDamageToData[i]["name"])")
                                             self.doubleDamageTo.append((doubleDamageToData[i]["name"] as? String)!)
                                             
                                         }
@@ -474,7 +419,6 @@ class Pokemon {
                                     
                                     if let noDamageFromData = damageDetail["no_damage_from"] as? [Dictionary<String, AnyObject>] where noDamageFromData.count > 0{
                                         for(var i = 0; i < noDamageFromData.count; i++){
-                                            print("inside no damage from \(noDamageFromData[i]["name"])")
                                             self.noDamageFrom.append((noDamageFromData[i]["name"] as? String)!)
                                             
                                         }
@@ -482,7 +426,6 @@ class Pokemon {
 
                                     if let halfDamageFromData = damageDetail["half_damage_from"] as? [Dictionary<String, AnyObject>] where halfDamageFromData.count > 0{
                                         for(var i = 0; i < halfDamageFromData.count; i++){
-                                            print("inside half damage from \(halfDamageFromData[i]["name"])")
                                             self.halfDamageFrom.append((halfDamageFromData[i]["name"] as? String)!)
                                             
                                         }
@@ -490,7 +433,6 @@ class Pokemon {
                                     
                                     if let doubleDamageFromData = damageDetail["double_damage_from"] as? [Dictionary<String, AnyObject>] where doubleDamageFromData.count > 0{
                                         for(var i = 0; i < doubleDamageFromData.count; i++){
-                                            print("inside double damage from \(doubleDamageFromData[i]["name"])")
                                             self.doubleDamageFrom.append((doubleDamageFromData[i]["name"] as? String)!)
                                             
                                         }
@@ -506,7 +448,6 @@ class Pokemon {
                                             let url = pokeDetail["url"] as? String
                                             let newStr = url?.stringByReplacingOccurrencesOfString("http://pokeapi.co/api/v2/pokemon/", withString: "")
                                             let pokeId = newStr?.stringByReplacingOccurrencesOfString("/", withString: "")
-                                            print("pokeid from type download is \(pokeId)")
                                             if Int(pokeId!) <= 718 {
                                                 self.pokeByTypeDict["id"] = pokeId
                                                 self.pokeByType.append(self.pokeByTypeDict)

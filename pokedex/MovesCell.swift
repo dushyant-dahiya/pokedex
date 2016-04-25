@@ -28,7 +28,6 @@ class MovesCell: UITableViewCell {
     func configureCell(poke: [String:String]){
         if let name = poke["name"] {
             moveName.text = name
-            print("inside movie cell \(name)")
         }
         
         if let id = poke["id"] {

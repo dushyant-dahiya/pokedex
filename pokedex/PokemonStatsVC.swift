@@ -71,7 +71,6 @@ class PokemonStatsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidAppear(animated: Bool) {
         tableView.delegate = self
         tableView.dataSource = self
-        print("inside pokedexstatsvc")
         let currentImg = UIImage(named: "\(pokemon.pokedexId).png")
         self.mainImg.image = currentImg
         self.currentPokeImg.image = currentImg
@@ -97,8 +96,6 @@ class PokemonStatsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     func updateUI(){
-        //weightLbl.text = pokemon.weight
-        //heightLbl.text = pokemon.height
         currentPokeName.text = pokeName.text
         pokeDesc.text = pokemon.description
         speedLbl.text = pokemon.speed
@@ -118,17 +115,12 @@ class PokemonStatsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         }
        
         hpBar.frame.size.width = CGFloat(Double(pokemon.hp)!)
-//        
+        
         atkBar.frame.size.width = CGFloat(Double(pokemon.attack)!)
         defBar.frame.size.width = CGFloat(Double(pokemon.defense)!)
         spaBar.frame.size.width = CGFloat(Double(pokemon.spa)!)
         spdBar.frame.size.width = CGFloat(Double(pokemon.spd)!)
         speedBar.frame.size.width = CGFloat(Double(pokemon.speed)!)
-        
-//        if let type1 = pokemon.type1 {
-//            type1Lbl.text = type1
-//            setTpeColor(type1, typeNumber: "type1")
-//        }
         
         let type1 = pokemon.type1
         type1Lbl.text = type1
@@ -159,7 +151,6 @@ class PokemonStatsVC: UIViewController, UITableViewDataSource, UITableViewDelega
             nextEvoImg.layer.borderWidth = 3
             self.nextEvoImg.layer.borderColor = GetColorFromHex(0x3497DA).CGColor
             evoNextPokeLbl.text = pokemon.nextEvolutionTxt
-            //self.evoExistenceLbl.hidden = true
             
         }
         
@@ -184,7 +175,6 @@ class PokemonStatsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("the count from tableview is \(pokemon.abilities.count)")
         return pokemon.abilities.count
     }
     
@@ -358,10 +348,9 @@ class PokemonStatsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     }
 
 
-    @IBAction func pokeSelected(sender: UITapGestureRecognizer){
-        let poke = Pokemon(name: pokemon.nextEvolutionTxt.capitalizedString, pokedexInt: Int(pokemon.nextEvolutionId)!)
-        print("hello from tap gesture")
-        viewDidAppear(true)
-    }
+//    @IBAction func pokeSelected(sender: UITapGestureRecognizer){
+//        let poke = Pokemon(name: pokemon.nextEvolutionTxt.capitalizedString, pokedexInt: Int(pokemon.nextEvolutionId)!)
+//        viewDidAppear(true)
+//    }
 
 }

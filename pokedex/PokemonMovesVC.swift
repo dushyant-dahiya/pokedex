@@ -23,11 +23,6 @@ class PokemonMovesVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.hidden = true
         tableView.delegate = self
         tableView.dataSource = self
-        print("inside pokedexmovesvc")
-//        pokemon.downloadPokemonDetails { () -> () in
-//            //self.updateUI()
-//            
-//        }
         
         pokemon.downloadPokemonMovesDetails { () -> () in
             self.tableView.reloadData()
@@ -77,9 +72,6 @@ class PokemonMovesVC: UIViewController, UITableViewDelegate, UITableViewDataSour
                     if let type = sender?["type"] as? String {
                         detailVC.currentType = type
                     }
-                    
-                    
-                    print("this is inside prepareforsegue \(sender!["id"] as! String)")
                 }
                 
             }

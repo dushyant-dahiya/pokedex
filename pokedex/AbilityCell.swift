@@ -15,7 +15,6 @@ class AbilityCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        print("hello nib")
     }
     
     func configureCell(poke: [String: String?]){

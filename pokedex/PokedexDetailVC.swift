@@ -25,9 +25,6 @@ class PokedexDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print("inside pokedexdetailvc")
-        print(pokemon.pokedexId)
         
         containerStats.hidden = false
         containerMoves.hidden = true
@@ -56,8 +53,6 @@ class PokedexDetailVC: UIViewController {
         pokemon.abilityDict = [:]
         pokemon.moveDict = [:]
         pokemon.moves = []
-//        pokemon.statsRequest?.cancel()
-//        pokemon.movesRequest?.cancel()
         Alamofire.Manager.sharedInstance.session.getAllTasksWithCompletionHandler { (tasks) -> Void in
             tasks.forEach({$0.cancel()})
         }
@@ -71,7 +66,6 @@ class PokedexDetailVC: UIViewController {
         if segue.identifier == "PokemonStatsVC" {
             if let detailVC = segue.destinationViewController as? PokemonStatsVC {
                 if let poke = pokemon {
-                print("true")
                     detailVC.pokemon = poke
                 }
                 
@@ -101,7 +95,6 @@ class PokedexDetailVC: UIViewController {
             
             containerMoves.hidden = false
             containerStats.hidden = true
-           // movesActivityIndicator.stopAnimating()
             
         }
     }
