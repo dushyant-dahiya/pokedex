@@ -29,6 +29,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         
         initAudio()
         parsePokemonCSV()
+        
+        let textFieldInsideSearchBar = searchBar.valueForKey("searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = UIColor.whiteColor()
+        
+        let placeHolderInsideSearchBar = textFieldInsideSearchBar!.valueForKey("placeholderLabel") as? UILabel
+        placeHolderInsideSearchBar?.textColor = UIColor.whiteColor()
     }
     
     @IBAction func soundBtnPressed(sender: UIButton!){
@@ -100,7 +106,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             poke = pokemon[indexPath.row]
         }
         
-        performSegueWithIdentifier("PokemonDetailVC", sender: poke)
+        performSegueWithIdentifier("PokedexDetailVC", sender: poke)
             
         
     }
@@ -138,8 +144,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "PokemonDetailVC" {
-            if let detailVC = segue.destinationViewController as? PokemonDetailVC {
+        if segue.identifier == "PokedexDetailVC" {
+            if let detailVC = segue.destinationViewController as? PokedexDetailVC {
                 if let poke = sender as? Pokemon{
                     detailVC.pokemon = poke
                 }

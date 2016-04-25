@@ -35,15 +35,17 @@ class PokemonDetailVC: UIViewController {
         mainImg.image = currentImg
         currentEvoImg.image = currentImg
         
-        pokemon.downloadPokemonDetails { () -> () in
-            self.updateUI()
-        }
+//        pokemon.downloadPokemonDetails { () -> () in
+//            self.updateUI()
+//        }
+        
+       
         
         
     }
     
     func updateUI(){
-        typeLbl.text = pokemon.type
+        //typeLbl.text = pokemon.type
         defenseLbl.text = pokemon.defense
         heightLbl.text = pokemon.height
         weightLbl.text = pokemon.weight

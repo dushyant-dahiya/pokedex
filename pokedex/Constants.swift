@@ -7,10 +7,18 @@
 //
 
 import Foundation
+import Alamofire
 
 let URL_BASE = "http://pokeapi.co/"
 let URL_POKEMON = "api/v1/pokemon/"
+let URL_POKEMON_ABILITY_V2 = "\(URL_BASE)api/v2/ability/"
+let URL_POKEMON_MOVE_V2 = "\(URL_BASE)api/v2/move/"
+let URL_POKEMON_TYPE = "\(URL_BASE)api/v2/type/"
+
+
 
 
 //define our own closure. A block of code called whenever we want to
-typealias DownloadComplete = () -> ()
+typealias StatsDownloadComplete = () -> ()
+typealias MovesDownloadComplete = () -> ()
+typealias TypeDownloadComplete = () -> ()
